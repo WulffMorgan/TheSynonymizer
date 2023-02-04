@@ -38,6 +38,21 @@ public class SynonymsRepositoryTest
     }
 
     [TestMethod]
+    public void AddSynonyms_AddDuplicatesAtOnce_ShouldNotAddDuplicate()
+    {
+        // Arrange
+        var synonymsRepository = GetNewSynonymsRepository();
+        IEnumerable<string> gottenSynonyms;
+
+        // Act
+        synonymsRepository.AddSynonyms("Couch", "Sofa", "Couch", "Sofa", "Sofa");
+        gottenSynonyms = synonymsRepository.GetSynonymsForWord("Couch");
+
+        // Assert
+        Assert.AreEqual(1, gottenSynonyms.Count());
+    }
+
+    [TestMethod]
     public void AddSynonyms_AddNewThenAddMore_ShouldAddAll()
     {
         // Arrange

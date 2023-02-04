@@ -11,6 +11,9 @@ public class SynonymsRepository : ISynonymsRepository
         => AddSynonyms((IEnumerable<string>)synonyms);
     public void AddSynonyms(IEnumerable<string> synonyms)
     {
+        if(synonyms is not ISet<string>)
+            synonyms = synonyms.ToHashSet();
+
         if(synonyms.Count() <= 1)
             return;
 
