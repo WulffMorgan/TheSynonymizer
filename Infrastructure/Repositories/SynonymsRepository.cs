@@ -5,7 +5,7 @@ namespace Infrastructure.Repositories;
 public class SynonymsRepository : ISynonymsRepository
 {
     private readonly Dictionary<string, Guid> _words = new();
-    private readonly Dictionary<Guid, HashSet<string>> _synonyms = new();
+    private readonly Dictionary<Guid, ISet<string>> _synonyms = new();
 
     public void AddSynonyms(params string[] synonyms)
         => AddSynonyms((IEnumerable<string>)synonyms);
@@ -15,8 +15,8 @@ public class SynonymsRepository : ISynonymsRepository
             return;
 
         var commonIdentifier = Guid.NewGuid();
-        var newSet = new HashSet<string>();
-        List<Guid> foundIdentifiers = new();
+        HashSet<string> newSet = new();
+        HashSet<Guid> foundIdentifiers = new();
 
         foreach(var word_ in synonyms)
         {
@@ -33,8 +33,8 @@ public class SynonymsRepository : ISynonymsRepository
             }
         }
 
-        var concatenation = ConcatenateWithFound(newSet, foundIdentifiers);
-        _synonyms.Add(commonIdentifier, concatenation);
+        _=ConcatenateWithFound(newSet, foundIdentifiers);
+        _synonyms.Add(commonIdentifier, newSet);
     }
 
     public IEnumerable<string> GetSynonymsForWord(string word)
@@ -49,11 +49,15 @@ public class SynonymsRepository : ISynonymsRepository
             .ToList();
     }
 
-    private HashSet<string> ConcatenateWithFound(HashSet<string> newSet, List<Guid> foundIdentifiers)
+    private ISet<string> ConcatenateWithFound(ISet<string> newSet, ISet<Guid> foundIdentifiers)
     {
-        IEnumerable<string> concatenation = newSet;
         foreach(var identifier in foundIdentifiers)
-            concatenation = concatenation.Concat(_synonyms[identifier]);
-        return concatenation.ToHashSet();
+        {
+            var synonyms = _synonyms[identifier];
+            foreach(var synonym in synonyms)
+                _=newSet.Add(synonym);
+            _=_synonyms.Remove(identifier);
+        }
+        return newSet;
     }
 }
