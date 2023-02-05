@@ -6,7 +6,7 @@
            placeholder="Search"
            class="form-control"
            #search
-           (keyup.enter)="onSearch(search.value)" />
+           (search)="onSearch($event, search.value)" />
     <label for="search"
            class="form-label">
       Search
@@ -14,7 +14,7 @@
   </div>
   <button type="button"
           class="btn btn-primary"
-          (click)="onSearch(search.value)">
+          (click)="onSearch($event, search.value)">
     <i class="bi bi-search"></i>
   </button>
 </div>

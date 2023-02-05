@@ -11,10 +11,11 @@ export class SearchComponent {
   private search;
 
   public constructor() {
-    this.search = new EventEmitter;
+    this.search = new EventEmitter<string>;
   }
 
-  public onSearch(searchValue: string): void {
+  public onSearch(event: Event, searchValue: string): void {
+    event.stopPropagation();
     this.search.emit(searchValue);
   }
 
