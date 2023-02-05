@@ -1,1 +1,18 @@
 <app-search (search)="onSearch($event)"></app-search>
+
+<div *ngIf="wordWithSynonyms != undefined"
+     class="card">
+  <div class="card-header">
+    Synonyms for: <span>{{ wordWithSynonyms.word }}</span>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li *ngFor="let synonym of wordWithSynonyms.synonyms"
+        class="list-group-item">
+      {{ synonym }}
+    </li>
+    <li *ngIf="wordWithSynonyms.synonyms.length == 0"
+        class="list-group-item">
+      Sorry, but we do not know any synonyms for <span>{{ wordWithSynonyms.word }}</span>. 🙁
+    </li>
+  </ul>
+</div>
