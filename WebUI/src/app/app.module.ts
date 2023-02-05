@@ -8,18 +8,21 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { RouterModule } from '@angular/router';
 import { SearchSynonymsComponent } from './search-synonyms/search-synonyms.component';
 import { SearchComponent } from './search/search.component';
+import { AddSynonymsComponent } from './add-synonyms/add-synonyms.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
     SearchSynonymsComponent,
-    SearchComponent
+    SearchComponent,
+    AddSynonymsComponent
   ],
   imports: [
     BrowserModule, HttpClientModule, NgbModule,
     RouterModule.forRoot([
-      { path: '', component: SearchSynonymsComponent, pathMatch: 'full' }
+      { path: '', component: SearchSynonymsComponent, pathMatch: 'full' },
+      { path: 'add', component: AddSynonymsComponent }
     ])
   ],
   providers: [],
