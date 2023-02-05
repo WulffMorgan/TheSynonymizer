@@ -19,6 +19,7 @@ public class SynonymsService : ISynonymsService
 
     public WordWithSynonyms GetSynonymsForWord(string word)
     {
+        word = word.ToLower();
         var synonyms = _synonymsRepository.GetSynonymsForWord(word);
         return new WordWithSynonyms(word, synonyms);
     }

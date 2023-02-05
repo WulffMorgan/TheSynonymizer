@@ -11,19 +11,19 @@ public class SynonymsRepository : ISynonymsRepository
         => AddSynonyms((IEnumerable<string>)synonyms);
     public void AddSynonyms(IEnumerable<string> synonyms)
     {
-        if(synonyms is not ISet<string>)
-            synonyms = synonyms.ToHashSet();
+        synonyms = synonyms
+            .Select(w => w.ToLower())
+            .ToHashSet();
 
-        if(synonyms.Count() <= 1)
+        if(((ISet<string>)synonyms).Count <= 1)
             return;
 
         var commonIdentifier = Guid.NewGuid();
         HashSet<string> newSet = new();
         HashSet<Guid> foundIdentifiers = new();
 
-        foreach(var word_ in synonyms)
+        foreach(var word in synonyms)
         {
-            var word = word_.ToLower();
             if(_words.TryGetValue(word, out var foundIdentifier))
             {
                 foundIdentifiers.Add(foundIdentifier);
