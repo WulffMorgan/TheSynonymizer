@@ -1,0 +1,20 @@
+<div class="input-group">
+  <div class="form-floating">
+    <input id="search"
+           name="search"
+           type="search"
+           placeholder="Search"
+           class="form-control"
+           #search
+           (keyup.enter)="onSearch(search.value)" />
+    <label for="search"
+           class="form-label">
+      Search
+    </label>
+  </div>
+  <button type="button"
+          class="btn btn-primary"
+          (click)="onSearch(search.value)">
+    <i class="bi bi-search"></i>
+  </button>
+</div>
