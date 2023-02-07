@@ -31,6 +31,9 @@ public class SynonymsController : ControllerBase
     [HttpPost]
     public ActionResult<WordWithSynonyms> Post([FromBody] ISet<string> synonyms)
     {
+        if(!synonyms.Any())
+            return BadRequest();
+
         _synonymsService.AddSynonyms(synonyms);
 
         var word = synonyms.First();
