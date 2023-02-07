@@ -27,14 +27,13 @@ public class SynonymsController : ControllerBase
             : NotFound();
     }
 
-    // PUT api/<SynonymsController>/5
-    [HttpPut("{word}")]
-    public ActionResult<WordWithSynonyms> Put(string word, [FromBody] ISet<string> synonyms)
+    // POST api/<SynonymsController>
+    [HttpPost]
+    public ActionResult<WordWithSynonyms> Post([FromBody] ISet<string> synonyms)
     {
-        synonyms.Add(word);
-
         _synonymsService.AddSynonyms(synonyms);
 
+        var word = synonyms.First();
         var wordWithSynonyms = _synonymsService.GetSynonymsForWord(word);
         return CreatedAtAction(nameof(Get), new { word }, wordWithSynonyms);
     }
