@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 
 @Component({
@@ -8,15 +9,25 @@ import { Component } from '@angular/core';
 export class AddSynonymsComponent {
 
   private _synonyms: string[] = [];
+  private http: HttpClient;
+
+  public constructor(http: HttpClient) {
+    this.http = http;
+  }
 
   get synonyms(): string[] { return this._synonyms; }
 
   public onSaveSynonymsClick() {
-    console.log(this._synonyms);
+    this.http.post('/api/synonyms', this._synonyms).subscribe(() => {
+      alert('Synonyms saved successfully!');
+
+      this._synonyms.splice(0);
+    }, error => console.error(error));
   }
 
   public onAddInput(addSynonymInput: HTMLInputElement): void {
-    this._synonyms.push(addSynonymInput.value);
+    if (addSynonymInput.value)
+      this._synonyms.push(addSynonymInput.value);
     addSynonymInput.value = '';
   }
 
