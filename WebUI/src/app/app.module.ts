@@ -9,6 +9,7 @@ import { RouterModule } from '@angular/router';
 import { SearchSynonymsComponent } from './search-synonyms/search-synonyms.component';
 import { SearchComponent } from './search/search.component';
 import { AddSynonymsComponent } from './add-synonyms/add-synonyms.component';
+import { NgbdAlertSelfclosing } from './alert-selfclosing/alert-selfclosing.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,7 @@ import { AddSynonymsComponent } from './add-synonyms/add-synonyms.component';
     AddSynonymsComponent
   ],
   imports: [
-    BrowserModule, HttpClientModule, NgbModule,
+    BrowserModule, HttpClientModule, NgbModule, NgbdAlertSelfclosing,
     RouterModule.forRoot([
       { path: '', component: SearchSynonymsComponent, pathMatch: 'full' },
       { path: 'add', component: AddSynonymsComponent }

@@ -1,0 +1,3 @@
+<ngb-alert #selfClosingAlert *ngIf="successMessage" [type]="messageType" (closed)="successMessage = ''">
+  {{ successMessage }}
+</ngb-alert>

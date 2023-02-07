@@ -1,6 +1,8 @@
 <div class="add-synonyms-container">
+
   <div *ngFor="let synonym of synonyms; index as i; trackBy: trackSynonym"
        class="input-group">
+
     <div class="form-floating">
       <input id="synonym-input"
              name="synonym-input"
@@ -16,8 +18,13 @@
         Synonym {{ i+1 }}
       </label>
     </div>
+
   </div>
+
+  <ngbd-alert-selfclosing #ngbdAlert></ngbd-alert-selfclosing>
+
   <div class="flex-row">
+
     <div class="input-group">
       <div class="form-floating">
         <input id="synonym-input"
@@ -33,15 +40,19 @@
         </label>
       </div>
     </div>
+
     <button type="button"
             class="btn btn-outline-success btn-lg"
             (click)="onAddInput(added)">
       <i class="bi bi-plus"></i>
     </button>
+
     <button type="button"
             class="btn btn-primary btn-lg"
             (click)="onSaveSynonymsClick()">
       Save synonyms
     </button>
+
   </div>
+
 </div>

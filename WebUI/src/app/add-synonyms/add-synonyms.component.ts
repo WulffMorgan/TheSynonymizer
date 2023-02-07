@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { MessageType, NgbdAlertSelfclosing } from '../alert-selfclosing/alert-selfclosing.component';
 
 @Component({
   selector: 'app-add-synonyms',
@@ -15,14 +16,20 @@ export class AddSynonymsComponent {
     this.http = http;
   }
 
+  @ViewChild('ngbdAlert', { static: false }) ngbdAlert!: NgbdAlertSelfclosing;
+
   get synonyms(): string[] { return this._synonyms; }
 
   public onSaveSynonymsClick() {
-    this.http.post('/api/synonyms', this._synonyms).subscribe(() => {
-      alert('Synonyms saved successfully!');
+    if (this.synonyms.length <= 1) {
+      this.ngbdAlert.changeMessage("No point in sending less than two words...", MessageType.Warning);
+      return;
+    }
 
+    this.http.post('/api/synonyms', this._synonyms).subscribe(() => {
       this._synonyms.splice(0);
-    }, error => console.error(error));
+      this.ngbdAlert.changeMessage("Success!", MessageType.Success);
+    }, error => this.ngbdAlert.changeMessage(error.message ?? 'An error occurred', MessageType.Error));
   }
 
   public onAddInput(addSynonymInput: HTMLInputElement): void {
