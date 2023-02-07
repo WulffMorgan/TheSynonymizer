@@ -101,7 +101,7 @@ public class SynonymsRepositoryTest
         synonymsRepository.AddSynonyms("police", "cop");
         synonymsRepository.AddSynonyms("policeman", "po-po");
         synonymsRepository.AddSynonyms("police", "policeman");
-        gottenSynonyms = synonymsRepository.GetSynonymsForWord("police");
+        gottenSynonyms = synonymsRepository.GetSynonymsForWord("cop");
 
         // Assert
         Assert.AreEqual(3, gottenSynonyms.Count());

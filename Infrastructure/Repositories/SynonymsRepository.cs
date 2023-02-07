@@ -18,7 +18,7 @@ public class SynonymsRepository : ISynonymsRepository
         if(((ISet<string>)synonyms).Count <= 1)
             return;
 
-        var commonIdentifier = Guid.NewGuid();
+        var newIdentifier = Guid.NewGuid();
         HashSet<string> newSet = new();
         HashSet<Guid> foundIdentifiers = new();
 
@@ -27,17 +27,16 @@ public class SynonymsRepository : ISynonymsRepository
             if(_words.TryGetValue(word, out var foundIdentifier))
             {
                 foundIdentifiers.Add(foundIdentifier);
-                _words[word] = commonIdentifier;
             }
             else
             {
-                _words.Add(word, commonIdentifier);
+                _words.Add(word, newIdentifier);
                 _=newSet.Add(word);
             }
         }
 
-        _=ConcatenateWithFound(newSet, foundIdentifiers);
-        _synonyms.Add(commonIdentifier, newSet);
+        _=ConcatenateWithFound(newSet, foundIdentifiers, newIdentifier);
+        _synonyms.Add(newIdentifier, newSet);
     }
 
     public IEnumerable<string> GetSynonymsForWord(string word)
@@ -52,13 +51,17 @@ public class SynonymsRepository : ISynonymsRepository
             .ToList();
     }
 
-    private ISet<string> ConcatenateWithFound(ISet<string> newSet, ISet<Guid> foundIdentifiers)
+    private ISet<string> ConcatenateWithFound(ISet<string> newSet, ISet<Guid> foundIdentifiers, Guid newIdentifier)
     {
         foreach(var identifier in foundIdentifiers)
         {
             var synonyms = _synonyms[identifier];
             foreach(var synonym in synonyms)
+            {
                 _=newSet.Add(synonym);
+                _words[synonym] = newIdentifier;
+            }
+
             _=_synonyms.Remove(identifier);
         }
         return newSet;
