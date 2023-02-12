@@ -1,20 +1,20 @@
 <div class="input-group">
   <div class="form-floating">
-    <input id="search"
+    <input id="search_input"
            name="search"
            type="search"
            placeholder="Search"
            class="form-control"
-           #search
-           (search)="onSearch($event, search.value)" />
-    <label for="search"
+           #searchInput
+           (search)="onSearch($event, searchInput.value)" />
+    <label for="search_input"
            class="form-label">
       Search
     </label>
   </div>
   <button type="button"
           class="btn btn-primary"
-          (click)="onSearch($event, search.value)">
+          (click)="onSearch($event, searchInput.value)">
     <i class="bi bi-search"></i>
   </button>
 </div>
