@@ -12,7 +12,7 @@ public class SynonymsRepository : ISynonymsRepository
     public void AddSynonyms(IEnumerable<string> synonyms)
     {
         synonyms = synonyms
-            .Select(w => w.ToLower())
+            .Select(w => w.Trim().ToLower())
             .ToHashSet();
 
         if(((ISet<string>)synonyms).Count <= 1)
@@ -41,7 +41,7 @@ public class SynonymsRepository : ISynonymsRepository
 
     public IEnumerable<string> GetSynonymsForWord(string word)
     {
-        word = word.ToLower();
+        word = word.Trim().ToLower();
 
         if(!_words.TryGetValue(word, out var commonIdentifier))
             return Enumerable.Empty<string>();

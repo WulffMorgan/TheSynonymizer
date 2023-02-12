@@ -108,6 +108,21 @@ public class SynonymsRepositoryTest
     }
 
     [TestMethod]
+    public void AddSynonyms_GetSynonymsForWord_WithSpaces_ShouldTrim()
+    {
+        // Arrange
+        var synonymsRepository = GetNewSynonymsRepository();
+        IEnumerable<string> gottenSynonyms;
+
+        // Act
+        synonymsRepository.AddSynonyms(" god", "deity ", " divinity ");
+        gottenSynonyms = synonymsRepository.GetSynonymsForWord(" deity ");
+
+        // Assert
+        Assert.AreEqual(2, gottenSynonyms.Count());
+    }
+
+    [TestMethod]
     public void GetSynonymsForWord_UnknownWord_ShouldReturnEmpty()
     {
         // Arrange
