@@ -1,25 +1,34 @@
+
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.flex-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+
+  .input-group {
+    flex: 1 0 50%;
+  }
+
+  button {
+    flex-shrink: 0;
+
+    &.btn-primary {
+      flex-grow: 1;
+    }
+  }
+}
+
 .add-synonyms-container {
   display: flex;
   flex-direction: column-reverse;
   gap: 1rem;
-
-  .flex-row {
-    display: flex;
-    flex-wrap: wrap-reverse;
-    gap: 1rem;
-
-    .input-group {
-      flex: 1 0 50%;
-    }
-
-    button {
-      flex-shrink: 0;
-
-      &.btn-primary {
-          flex-grow: 1;
-      }
-    }
-  }
+  margin: 1rem 0;
+  overflow: auto;
 }
 
 .input-group {

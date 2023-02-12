@@ -6,3 +6,9 @@
 html, body {
     height: 100%;
 }
+
+.form-floating > label {
+    // Prevent the label from going outside the parent box, which creates problems with overflow
+    top: 1rem;
+    padding-top: 0;
+}

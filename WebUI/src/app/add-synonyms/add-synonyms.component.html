@@ -1,58 +1,54 @@
-<div class="add-synonyms-container">
+<div class="flex-row">
 
-  <div *ngFor="let synonym of synonyms; index as i; trackBy: trackSynonym"
-       class="input-group">
-
+  <div class="input-group">
     <div class="form-floating">
       <input id="synonym-input"
              name="synonym-input"
              type="text"
-             placeholder="Synonym {{ i+1 }}"
+             placeholder="Add synonym"
              class="form-control"
-             #changed
-             value="{{ synonym }}"
-             (input)="onInputChanged(i, changed.value)"
-             (focusout)="onInputLeave(i, changed.value)" />
+             #added
+             (keyup.enter)="onAddInput(added)" />
       <label for="synonym-input"
              class="form-label">
-        Synonym {{ i+1 }}
+        Add synonym
       </label>
     </div>
-
   </div>
 
-  <ngbd-alert-selfclosing #ngbdAlert></ngbd-alert-selfclosing>
+  <button type="button"
+          class="btn btn-outline-success btn-lg"
+          (click)="onAddInput(added)">
+    <i class="bi bi-plus"></i>
+  </button>
 
-  <div class="flex-row">
+  <button type="button"
+          class="btn btn-primary btn-lg"
+          (click)="onSaveSynonymsClick()">
+    Save synonyms
+  </button>
 
-    <div class="input-group">
-      <div class="form-floating">
-        <input id="synonym-input"
-               name="synonym-input"
-               type="text"
-               placeholder="Add synonym"
-               class="form-control"
-               #added
-               (keyup.enter)="onAddInput(added)" />
-        <label for="synonym-input"
-               class="form-label">
-          Add synonym
-        </label>
-      </div>
-    </div>
+</div>
 
-    <button type="button"
-            class="btn btn-outline-success btn-lg"
-            (click)="onAddInput(added)">
-      <i class="bi bi-plus"></i>
-    </button>
+<ngbd-alert-selfclosing #ngbdAlert></ngbd-alert-selfclosing>
 
-    <button type="button"
-            class="btn btn-primary btn-lg"
-            (click)="onSaveSynonymsClick()">
-      Save synonyms
-    </button>
+<div class="add-synonyms-container">
 
+  <div *ngFor="let synonym of synonyms; index as i; trackBy: trackSynonym"
+       class="form-floating">
+    <input id="synonym-input"
+           name="synonym-input"
+           type="text"
+           placeholder="Synonym {{ i+1 }}"
+           class="form-control"
+           #changed
+           value="{{ synonym }}"
+           (input)="onInputChanged(i, changed.value)"
+           (focusout)="onInputLeave(i, changed.value)" />
+    <label for="synonym-input"
+           class="form-label">
+      Synonym {{ i+1 }}
+    </label>
   </div>
 
 </div>
