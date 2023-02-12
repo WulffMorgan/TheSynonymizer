@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { NgbAlert, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgIf } from '@angular/common';
+import { AlertService, Message } from '../alert.service';
 
 @Component({
   selector: 'ngbd-alert-selfclosing',
@@ -11,31 +11,30 @@ import { NgIf } from '@angular/common';
   templateUrl: './alert-selfclosing.component.html',
 })
 export class NgbdAlertSelfclosing implements OnInit {
-  private _success = new Subject<string>();
 
-  staticAlertClosed = false;
-  successMessage = '';
-  messageType = '';
+  private _message?: Message;
+  private _alertService: AlertService;
 
-  @ViewChild('selfClosingAlert', { static: false }) selfClosingAlert!: NgbAlert;
+  @ViewChild('selfClosingAlert', { static: false })
+  private _selfClosingAlert!: NgbAlert;
 
-  ngOnInit(): void {
-    this._success.subscribe((message) => (this.successMessage = message));
-    this._success.pipe(debounceTime(5000)).subscribe(() => {
-      if (this.selfClosingAlert) {
-        this.selfClosingAlert.close();
+  public constructor(alertService: AlertService) {
+    this._alertService = alertService;
+  }
+
+  public get message() { return this._message; }
+
+  public ngOnInit(): void {
+    this._alertService.subject.subscribe((message) => (this._message = message));
+    this._alertService.subject.pipe(debounceTime(5000)).subscribe(() => {
+      if (this._selfClosingAlert) {
+        this._selfClosingAlert.close();
       }
     });
   }
 
-  public changeMessage(newMessage: string, messageType: MessageType) {
-    this.messageType = messageType;
-    this._success.next(newMessage);
+  public clear(): void {
+    this._message = undefined;
   }
-}
 
-export enum MessageType {
-  Success = 'success',
-  Warning = 'warning',
-  Error = 'danger'
 }

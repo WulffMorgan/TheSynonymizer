@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ViewChild } from '@angular/core';
-import { MessageType, NgbdAlertSelfclosing } from '../alert-selfclosing/alert-selfclosing.component';
+import { Component } from '@angular/core';
+import { AlertService, MessageType } from '../alert.service';
 
 @Component({
   selector: 'app-add-synonyms',
@@ -11,25 +11,25 @@ export class AddSynonymsComponent {
 
   private _synonyms: string[] = [];
   private http: HttpClient;
+  private _alertService: AlertService;
 
-  public constructor(http: HttpClient) {
+  public constructor(http: HttpClient, alertService: AlertService) {
     this.http = http;
+    this._alertService = alertService;
   }
-
-  @ViewChild('ngbdAlert', { static: false }) ngbdAlert!: NgbdAlertSelfclosing;
 
   get synonyms(): string[] { return this._synonyms; }
 
   public onSaveSynonymsClick() {
     if (this.synonyms.length <= 1) {
-      this.ngbdAlert.changeMessage("No point in sending less than two words...", MessageType.Warning);
+      this._alertService.changeMessage('No point in sending less than two words...', MessageType.Warning);
       return;
     }
 
     this.http.post('/api/synonyms', this._synonyms).subscribe(() => {
       this._synonyms.splice(0);
-      this.ngbdAlert.changeMessage("Success!", MessageType.Success);
-    }, error => this.ngbdAlert.changeMessage(error.message ?? 'An error occurred', MessageType.Error));
+      this._alertService.changeMessage('Success!', MessageType.Success);
+    }, error => this._alertService.changeMessage(error.message ?? 'An error occurred', MessageType.Error));
   }
 
   public onAddInput(addSynonymInput: HTMLInputElement): void {

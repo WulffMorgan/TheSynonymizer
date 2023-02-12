@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { AlertService, MessageType } from '../alert.service';
 
 @Component({
   selector: 'app-search-synonyms',
@@ -9,10 +10,12 @@ import { HttpClient } from '@angular/common/http';
 export class SearchSynonymsComponent {
 
   private http: HttpClient;
+  private _alertService: AlertService;
   private _wordWithSynonyms?: WordWithSynonyms;
 
-  public constructor(http: HttpClient) {
+  public constructor(http: HttpClient, alertService: AlertService) {
     this.http = http;
+    this._alertService = alertService;
   }
 
   public onSearch(searchValue: string): void {
@@ -21,7 +24,7 @@ export class SearchSynonymsComponent {
 
     this.http.get<WordWithSynonyms>(`/api/synonyms/${searchValue}`).subscribe(result => {
       this._wordWithSynonyms = result;
-    }, error => console.error(error));
+    }, error => this._alertService.changeMessage(error.message ?? 'An error occurred', MessageType.Error));
   }
 
   get wordWithSynonyms(): WordWithSynonyms | undefined { return this._wordWithSynonyms }

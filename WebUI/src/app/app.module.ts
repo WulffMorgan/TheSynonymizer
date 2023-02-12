@@ -10,6 +10,7 @@ import { SearchSynonymsComponent } from './search-synonyms/search-synonyms.compo
 import { SearchComponent } from './search/search.component';
 import { AddSynonymsComponent } from './add-synonyms/add-synonyms.component';
 import { NgbdAlertSelfclosing } from './alert-selfclosing/alert-selfclosing.component';
+import { AlertService } from './alert.service';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,9 @@ import { NgbdAlertSelfclosing } from './alert-selfclosing/alert-selfclosing.comp
       { path: 'add', component: AddSynonymsComponent }
     ])
   ],
-  providers: [],
+  providers: [
+    AlertService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
