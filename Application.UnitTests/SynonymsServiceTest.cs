@@ -47,16 +47,16 @@ public class SynonymsServiceTest
     {
         // Arrange
         var word = "Gollum";
-        var synonyms = new[] { "Smeagol", "Precious" };
-        _=_repoMock.Setup(repo => repo.GetSynonymsForWord("Gollum")).Returns(synonyms);
+        var synonyms = new[] { "smeagol", "precious" };
+        _=_repoMock.Setup(repo => repo.GetSynonymsForWord(word.ToLower())).Returns(synonyms);
         WordWithSynonyms result;
 
         // Act
         result = _synonymsService.GetSynonymsForWord(word);
 
         // Assert
-        _repoMock.Verify(repo => repo.GetSynonymsForWord(word), Times.Once());
-        Assert.AreEqual(word, result.Word);
+        _repoMock.Verify(repo => repo.GetSynonymsForWord(word.ToLower()), Times.Once());
+        Assert.AreEqual(word.ToLower(), result.Word);
         Assert.AreEqual(synonyms.Length, result.Synonyms.Count());
         for(int i = 1; i < synonyms.Length; i++)
             Assert.IsTrue(result.Synonyms.Contains(synonyms[i]));
