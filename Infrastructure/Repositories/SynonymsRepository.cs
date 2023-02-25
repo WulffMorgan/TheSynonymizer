@@ -8,14 +8,10 @@ public class SynonymsRepository : ISynonymsRepository
     private readonly Dictionary<Guid, ISet<string>> _synonyms = new();
 
     public void AddSynonyms(params string[] synonyms)
-        => AddSynonyms((IEnumerable<string>)synonyms);
-    public void AddSynonyms(IEnumerable<string> synonyms)
+        => AddSynonyms(synonyms.ToHashSet());
+    public void AddSynonyms(ISet<string> synonyms)
     {
-        synonyms = synonyms
-            .Select(w => w.Trim().ToLower())
-            .ToHashSet();
-
-        if (((ISet<string>)synonyms).Count <= 1)
+        if (synonyms.Count <= 1)
         {
             return;
         }
@@ -26,14 +22,15 @@ public class SynonymsRepository : ISynonymsRepository
 
         foreach (var word in synonyms)
         {
-            if (_words.TryGetValue(word, out var foundIdentifier))
+            var trimmedLowercaseWord = word.Trim().ToLower();
+            if (_words.TryGetValue(trimmedLowercaseWord, out var foundIdentifier))
             {
                 _=foundIdentifiers.Add(foundIdentifier);
             }
             else
             {
-                _words.Add(word, newIdentifier);
-                _=newSet.Add(word);
+                _words.Add(trimmedLowercaseWord, newIdentifier);
+                _=newSet.Add(trimmedLowercaseWord);
             }
         }
 

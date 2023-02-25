@@ -33,7 +33,7 @@ public class SynonymsServiceTest
     public void AddSynonyms_WithIEnumerableParameter_ShouldCallRepoMethod()
     {
         // Arrange
-        var parameter = It.IsAny<IEnumerable<string>>();
+        var parameter = It.IsAny<ISet<string>>();
 
         // Act
         _synonymsService.AddSynonyms(parameter);

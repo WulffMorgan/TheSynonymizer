@@ -14,7 +14,7 @@ public class SynonymsService : ISynonymsService
 
     public void AddSynonyms(params string[] synonyms)
         => _synonymsRepository.AddSynonyms(synonyms);
-    public void AddSynonyms(IEnumerable<string> synonyms)
+    public void AddSynonyms(ISet<string> synonyms)
         => _synonymsRepository.AddSynonyms(synonyms);
 
     public WordWithSynonyms GetSynonymsForWord(string word)
