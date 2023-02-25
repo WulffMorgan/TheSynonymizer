@@ -8,11 +8,11 @@ public static class ConfigureServices
 {
     public static IServiceCollection AddServices(this IServiceCollection services)
     {
-        services.AddControllers();
-        services.AddSingleton<ISynonymsRepository, SynonymsRepository>();
-        services.AddScoped<ISynonymsService, SynonymsService>();
-        services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen();
+        _=services.AddControllers();
+        _=services.AddSingleton<ISynonymsRepository, SynonymsRepository>();
+        _=services.AddScoped<ISynonymsService, SynonymsService>();
+        _=services.AddEndpointsApiExplorer();
+        _=services.AddSwaggerGen();
 
         return services;
     }

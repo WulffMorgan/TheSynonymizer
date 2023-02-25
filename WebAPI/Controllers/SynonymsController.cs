@@ -32,7 +32,9 @@ public class SynonymsController : ControllerBase
     public ActionResult<WordWithSynonyms> Post([FromBody] ISet<string> synonyms)
     {
         if(!synonyms.Any())
+        {
             return BadRequest();
+        }
 
         _synonymsService.AddSynonyms(synonyms);
 

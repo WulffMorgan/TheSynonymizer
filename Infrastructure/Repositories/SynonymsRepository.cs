@@ -15,18 +15,20 @@ public class SynonymsRepository : ISynonymsRepository
             .Select(w => w.Trim().ToLower())
             .ToHashSet();
 
-        if(((ISet<string>)synonyms).Count <= 1)
+        if (((ISet<string>)synonyms).Count <= 1)
+        {
             return;
+        }
 
         var newIdentifier = Guid.NewGuid();
         HashSet<string> newSet = new();
         HashSet<Guid> foundIdentifiers = new();
 
-        foreach(var word in synonyms)
+        foreach (var word in synonyms)
         {
-            if(_words.TryGetValue(word, out var foundIdentifier))
+            if (_words.TryGetValue(word, out var foundIdentifier))
             {
-                foundIdentifiers.Add(foundIdentifier);
+                _=foundIdentifiers.Add(foundIdentifier);
             }
             else
             {
@@ -43,20 +45,19 @@ public class SynonymsRepository : ISynonymsRepository
     {
         word = word.Trim().ToLower();
 
-        if(!_words.TryGetValue(word, out var commonIdentifier))
-            return Enumerable.Empty<string>();
-
-        return _synonyms[commonIdentifier]
-            .Where(w => w != word)
-            .ToList();
+        return _words.TryGetValue(word, out var commonIdentifier)
+            ? _synonyms[commonIdentifier]
+                .Where(w => w != word)
+                .ToList()
+            : Enumerable.Empty<string>();
     }
 
     private ISet<string> ConcatenateWithFound(ISet<string> newSet, ISet<Guid> foundIdentifiers, Guid newIdentifier)
     {
-        foreach(var identifier in foundIdentifiers)
+        foreach (var identifier in foundIdentifiers)
         {
             var synonyms = _synonyms[identifier];
-            foreach(var synonym in synonyms)
+            foreach (var synonym in synonyms)
             {
                 _=newSet.Add(synonym);
                 _words[synonym] = newIdentifier;

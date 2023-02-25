@@ -58,7 +58,9 @@ public class SynonymsServiceTest
         _repoMock.Verify(repo => repo.GetSynonymsForWord(word.ToLower()), Times.Once());
         Assert.AreEqual(word.ToLower(), result.Word);
         Assert.AreEqual(synonyms.Length, result.Synonyms.Count());
-        for(int i = 1; i < synonyms.Length; i++)
+        for(var i = 1; i < synonyms.Length; i++)
+        {
             Assert.IsTrue(result.Synonyms.Contains(synonyms[i]));
+        }
     }
 }
