@@ -1,0 +1,76 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            // Use IntelliSense to find out which attributes exist for C# debugging
+            // Use hover for the description of the existing attributes
+            // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
+            "name": "WebAPI",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            // If you have changed target frameworks, make sure to update the program path.
+            "program": "${workspaceFolder}/WebAPI/bin/Debug/net7.0/WebAPI.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/WebAPI",
+            "stopAtEntry": false,
+            // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
+            "serverReadyAction": {
+                "action": "debugWithChrome",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
+                "uriFormat": "%s/Swagger"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        },
+        {
+            "name": "WebUI",
+            "type": "chrome",
+            "request": "launch",
+            "url": "https://localhost:4200",
+            "webRoot": "${workspaceFolder}/WebUI",
+            "sourceMaps": true,
+            "userDataDir": "${workspaceFolder}/.vscode/chrome",
+            "runtimeArgs": [
+                "--disable-session-crashed-bubble",
+                "--disable-infobars",
+                "--disable-extensions",
+                "--disable-popup-blocking"
+            ],
+            "skipFiles": [
+                "${workspaceFolder}/WebUI/node_modules/**/*.js",
+                "${workspaceFolder}/WebUI/node_modules/**/*.map"
+            ],
+            "presentation": {
+                "group": "webview"
+            }
+        },
+        {
+            "name": "npm run start",
+            "type": "node",
+            "request": "launch",
+            "args": [
+                "run",
+                "start"
+            ],
+            "cwd": "${workspaceFolder}/WebUI",
+            "runtimeExecutable": "npm",
+            "console": "integratedTerminal"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Launch All",
+            "configurations": [
+                "npm run start",
+                "WebAPI",
+                "WebUI"
+            ],
+            "stopAll": true
+        }
+    ]
+}

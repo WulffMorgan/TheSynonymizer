@@ -9,7 +9,7 @@
       "webRoot": "${workspaceFolder}"
     },
     {
-      "type": "edge",
+      "type": "msedge",
       "request": "launch",
       "name": "localhost (Edge)",
       "url": "https://localhost:4200",
